@@ -1,6 +1,11 @@
-import Image from "next/image";
+"use client";
+
+import { useState } from "react";
 
 export default function Home() {
+  const [width, setWidth] = useState("");
+  const [depth, setDepth] = useState("");
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
       <main className="flex min-h-screen w-full max-w-3xl flex-col gap-8 py-24 px-8 bg-white dark:bg-black">
@@ -28,11 +33,14 @@ export default function Home() {
     <label className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
       棚の内寸（幅 cm）
     </label>
-    <input
-      type="number"
-      placeholder="例：38"
-      className="rounded-md border border-zinc-300 px-3 py-2 text-black focus:outline-none focus:ring dark:border-zinc-700 dark:bg-black dark:text-white"
-    />
+<input
+  type="number"
+  placeholder="例：38"
+  value={width}
+  onChange={(e) => setWidth(e.target.value)}
+  className="rounded-md border border-zinc-300 px-3 py-2 ..."
+/>
+
   </div>
 
   <div className="flex flex-col gap-2">
@@ -40,10 +48,12 @@ export default function Home() {
       棚の内寸（奥行 cm）
     </label>
     <input
-      type="number"
-      placeholder="例：26"
-      className="rounded-md border border-zinc-300 px-3 py-2 text-black focus:outline-none focus:ring dark:border-zinc-700 dark:bg-black dark:text-white"
-    />
+  type="number"
+  placeholder="例：26"
+  value={depth}
+  onChange={(e) => setDepth(e.target.value)}
+  className="rounded-md border border-zinc-300 px-3 py-2 ..."
+/>
   </div>
 </section>
 <button
