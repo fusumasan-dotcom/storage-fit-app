@@ -1,0 +1,22 @@
+"use client";
+
+import { useSearchParams } from "next/navigation";
+
+export default function ResultPage() {
+  const searchParams = useSearchParams();
+
+  const width = searchParams.get("width");
+  const depth = searchParams.get("depth");
+
+  return (
+    <div className="min-h-screen bg-zinc-50 p-8">
+      <h1 className="text-2xl font-bold mb-4">検索結果</h1>
+
+      <p className="text-lg">
+        あなたの入力サイズ：
+        <br />
+        幅 <strong>{width}</strong> cm / 奥行 <strong>{depth}</strong> cm
+      </p>
+    </div>
+  );
+}
