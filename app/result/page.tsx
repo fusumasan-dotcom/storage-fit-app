@@ -1,9 +1,9 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
-// ダミーデータ（後でDBやSupabaseと連携可）
+// 収納ボックスの型
 interface Box {
   name: string;
   width: number;
@@ -12,24 +12,28 @@ interface Box {
   stackable: boolean;
 }
 
-const STORAGE_BOXES: Box[] = [
-  { name: "ニトリ Aボックス", width: 38, depth: 26, material: "プラ", stackable: true },
-  { name: "無印 Bボックス", width: 36, depth: 24, material: "天然", stackable: false },
-  { name: "IKEA Cボックス", width: 40, depth: 28, material: "布", stackable: true },
-];
-
 export default function ResultPage() {
   const searchParams = useSearchParams();
-  const width = Number(searchParams.get("width") || 0);
-  const depth = Number(searchParams.get("depth") || 0);
+  const widthParam = searchParams?.get("width") ?? "0";
+  const depthParam = searchParams?.get("depth") ?? "0";
+  const width = Number(widthParam);
+  const depth = Number(depthParam);
 
   const [results, setResults] = useState<Box[]>([]);
 
   useEffect(() => {
-    // 簡単なフィルタロジック
+    // サンプルデータ
+    const STORAGE_BOXES: Box[] = [
+      { name: "ニトリ Aボックス", width: 38, depth: 26, material: "プラ", stackable: true },
+      { name: "無印 Bボックス", width: 36, depth: 24, material: "天然", stackable: false },
+      { name: "IKEA Cボックス", width: 40, depth: 28, material: "布", stackable: true },
+    ];
+
+    // サイズでフィルタ
     const filtered = STORAGE_BOXES.filter(
       (box) => box.width <= width && box.depth <= depth
     );
+
     setResults(filtered);
   }, [width, depth]);
 
@@ -38,9 +42,7 @@ export default function ResultPage() {
       <h1 className="text-2xl font-bold mb-4">検索結果</h1>
 
       <p className="text-lg mb-6">
-        あなたの入力サイズ：
-        <br />
-        幅 <strong>{width}</strong> cm / 奥行 <strong>{depth}</strong> cm
+        あなたの入力サイズ：幅 <strong>{width}</strong> cm / 奥行 <strong>{depth}</strong> cm
       </p>
 
       {results.length === 0 ? (
