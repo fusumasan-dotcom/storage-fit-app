@@ -1,4 +1,4 @@
-"use client";
+"use client"; // 必ず一番上
 
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -13,12 +13,16 @@ interface Box {
 
 export default function ResultPage() {
   const searchParams = useSearchParams();
-  const width = Number(searchParams?.get("width") ?? 0);
-  const depth = Number(searchParams?.get("depth") ?? 0);
-
   const [results, setResults] = useState<Box[]>([]);
+  const [width, setWidth] = useState(0);
+  const [depth, setDepth] = useState(0);
 
   useEffect(() => {
+    const w = Number(searchParams.get("width") ?? 0);
+    const d = Number(searchParams.get("depth") ?? 0);
+    setWidth(w);
+    setDepth(d);
+
     const STORAGE_BOXES: Box[] = [
       { name: "ニトリ Aボックス", width: 38, depth: 26, material: "プラ", stackable: true },
       { name: "無印 Bボックス", width: 36, depth: 24, material: "天然", stackable: false },
@@ -26,11 +30,11 @@ export default function ResultPage() {
     ];
 
     const filtered = STORAGE_BOXES.filter(
-      (box) => box.width <= width && box.depth <= depth
+      (box) => box.width <= w && box.depth <= d
     );
 
     setResults(filtered);
-  }, [width, depth]);
+  }, [searchParams]);
 
   return (
     <div className="min-h-screen p-8 bg-zinc-50">
