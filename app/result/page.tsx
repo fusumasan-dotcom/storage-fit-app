@@ -3,7 +3,6 @@
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-// 収納ボックスの型
 interface Box {
   name: string;
   width: number;
@@ -14,22 +13,18 @@ interface Box {
 
 export default function ResultPage() {
   const searchParams = useSearchParams();
-  const widthParam = searchParams?.get("width") ?? "0";
-  const depthParam = searchParams?.get("depth") ?? "0";
-  const width = Number(widthParam);
-  const depth = Number(depthParam);
+  const width = Number(searchParams?.get("width") ?? 0);
+  const depth = Number(searchParams?.get("depth") ?? 0);
 
   const [results, setResults] = useState<Box[]>([]);
 
   useEffect(() => {
-    // サンプルデータ
     const STORAGE_BOXES: Box[] = [
       { name: "ニトリ Aボックス", width: 38, depth: 26, material: "プラ", stackable: true },
       { name: "無印 Bボックス", width: 36, depth: 24, material: "天然", stackable: false },
       { name: "IKEA Cボックス", width: 40, depth: 28, material: "布", stackable: true },
     ];
 
-    // サイズでフィルタ
     const filtered = STORAGE_BOXES.filter(
       (box) => box.width <= width && box.depth <= depth
     );
@@ -38,11 +33,10 @@ export default function ResultPage() {
   }, [width, depth]);
 
   return (
-    <div className="min-h-screen bg-zinc-50 p-8">
+    <div className="min-h-screen p-8 bg-zinc-50">
       <h1 className="text-2xl font-bold mb-4">検索結果</h1>
-
       <p className="text-lg mb-6">
-        あなたの入力サイズ：幅 <strong>{width}</strong> cm / 奥行 <strong>{depth}</strong> cm
+        あなたの入力サイズ：幅 {width} cm / 奥行 {depth} cm
       </p>
 
       {results.length === 0 ? (
